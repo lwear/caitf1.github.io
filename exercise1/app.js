@@ -1,4 +1,3 @@
-alert("HELLO FROM APP.JS");
 
 var pics = [
 	"imgs/kitty_bed.jpg",
