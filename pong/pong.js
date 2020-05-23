@@ -6,6 +6,10 @@ document.getElementById("score2").innerHTML = score2;
 
 var speedOfPaddle1 = 0;
 var speedOfPaddle2 = 0;
+
+const startPositionOfPaddle1 = document.getElementById("paddle1").offsetTop;
+const startPositionOfPaddle2 = document.getElementById("paddle2").offsetTop;
+
 var positionOfPaddle1 = document.getElementById("paddle1").offsetTop;
 var positionOfPaddle2 = document.getElementById("paddle2").offsetTop;
 
@@ -22,17 +26,23 @@ const startLeftPositionOfBall = document.getElementById("ball").offsetLeft;
 
 var topPositionOfBall = startTopPositionOfBall;
 var leftPositionOfBall = startLeftPositionOfBall;
+
 var topSpeedOfBall = 0;
 var leftSpeedOfBall = 0;
 
 var buzzer = new sound("buzzer.mp3");
 var bounce = new sound("bounce.wav");
 
+// used to control game start/stop
+var controlPlay;
+
 
 //start ball motion
+/*
 window.addEventListener('load', function(){
 	startBall();
 });
+*/
 
 //move paddles
 document.addEventListener('keydown', function(e) {
@@ -96,12 +106,12 @@ function sound(src) {
 //start the ball movement
 function startBall() {
 	let direction = 1;
-	var topPositionOfBall = startTopPositionOfBall;
-	var leftPositionOfBall = startLeftPositionOfBall;
+	topPositionOfBall = startTopPositionOfBall;
+	leftPositionOfBall = startLeftPositionOfBall;
 	
 	//50% change of starting in either direction (right or left)
 	if(Math.random()<0.5){
-		direction: 1;
+		direction = 1;
 	} else {
 		direction = -1;
 	}
@@ -112,7 +122,7 @@ function startBall() {
 
 
 //update locations of paddles and ball
-window.setInterval(function show(){
+function show(){
 	
 	//update positions of elements
 	positionOfPaddle1 += speedOfPaddle1;
@@ -176,4 +186,111 @@ window.setInterval(function show(){
 	document.getElementById("ball").style.top = topPositionOfBall + "px";
 	document.getElementById("ball").style.left = leftPositionOfBall + "px";
 
-}, 1000/60); //show
+} //show
+
+
+// resume game
+function resumeGame() {
+	if (!controlPlay){
+		controlPlay = window.setInterval(show, 1000/60);
+	}	
+}//resumeGame
+
+
+// pause game
+function pauseGame() {
+	window.clearInterval(controlPlay);
+	controlPlay = false;
+}//pauseGame
+
+
+// start game 
+function startGame() {
+	
+	// reset scores, ball and paddle locations
+	score1=0;
+	score2=0;
+	positionOfPaddle1 = startPositionOfPaddle1;
+	positionOfPaddle2 = startPositionOfPaddle2;
+	
+	startBall();
+	
+	if (!controlPlay){
+		controlPlay = window.setInterval(show, 1000/60);
+	}	
+} // startGame
+
+
+// stop game
+function stopGame() {
+	window.clearInterval(controlPlay);
+	controlPlay = false;
+	
+	// show lightbox with score 
+	let message = "Tie Game";
+	let message2 = "Close to continue.";
+	
+	if (score2 > score1){
+		message = "Player 2 wins with " + score2 + " points";
+	    message2 = "Player 1 had " + score1 + " points";
+	} else if (score1 > score2){
+		message = "Player 1 wins with " + score1 + " points";
+	    message2 = "Player 2 had " + score2 + " points";
+	} 
+	
+	showLightBox(message, message2);
+	
+} // stopGame
+
+
+/**** Lightbox Code ****/
+function changeVisibility(divID){
+	var element = document.getElementById(divID);
+	
+	//if element exists, toggle its class between hidden and unhidden
+
+	if(element) {
+		element.className = (element.className == 'hidden')? 'unhidden' : 'hidden';
+	}//if
+} //changeVisibility
+
+//display message in lightbox
+function showLightBox(message, message2){
+	
+	//set messages
+	document.getElementById("message").innerHTML = message;
+	document.getElementById("message2").innerHTML = message2;
+	
+	//show lightbox
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");
+}//showLightBox
+
+//close light box
+function continueGame(){
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");
+}//continueGame
+
+/**** End of Lightbox Code ****/
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
