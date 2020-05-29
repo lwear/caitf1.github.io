@@ -1,4 +1,5 @@
 //global variables 
+var round = 1;
 var score1 = 0;
 var score2 = 0;
 document.getElementById("score1").innerHTML = score1;
@@ -81,9 +82,7 @@ document.addEventListener('keyup', function(e) {
 	if (e.keyCode == 40 || e.which == 40){ //DOWN ARROW
 		speedOfPaddle2 = 0;
 	}
-
 });
-
 
 // object constructor to play sounds
 // https://www.w3schools.com/graphics/game_sound.asp
@@ -103,8 +102,19 @@ function sound(src) {
 } 
 
 
+function displayStartLightbox(){
+	let message = "Rules";
+	let message2 = "This game has 10 rounds/levels. The ball will speed up each level.";
+	
+	showLightBox(message, message2);
+}
+
+displayStartLightbox();
+
+
 //start the ball movement
 function startBall() {
+
 	let direction = 1;
 	topPositionOfBall = startTopPositionOfBall;
 	leftPositionOfBall = startLeftPositionOfBall;
@@ -115,8 +125,58 @@ function startBall() {
 	} else {
 		direction = -1;
 	}
-	topSpeedOfBall = Math.random() * 2 + 3; //3-4.9999
-	leftSpeedOfBall = direction * (Math.random() * 2 + 3);
+	
+	if(round==1){
+	topSpeedOfBall = 4; 
+	leftSpeedOfBall = 4;
+	}
+	
+	if(round==2){
+	topSpeedOfBall = 5; 
+	leftSpeedOfBall = 5;
+	}
+	
+	if(round==3){
+	topSpeedOfBall = 6; 
+	leftSpeedOfBall = 6;
+	}
+	
+	if(round==4){
+	topSpeedOfBall = 7; 
+	leftSpeedOfBall = 7;
+	}
+	
+	if(round==5){
+	topSpeedOfBall = 8; 
+	leftSpeedOfBall = 8;
+	}
+	
+	if(round==6){
+	topSpeedOfBall = 9; 
+	leftSpeedOfBall = 9;
+	}
+	
+	if(round==7){
+	topSpeedOfBall = 10; 
+	leftSpeedOfBall = 10;
+	}
+	
+	if(round==8){
+	topSpeedOfBall = 10.5; 
+	leftSpeedOfBall = 10.5;
+	}
+	
+	if(round==9){
+	topSpeedOfBall = 11; 
+	leftSpeedOfBall = 11;
+	}
+	
+	if(round==10){
+	topSpeedOfBall = 11.5; 
+	leftSpeedOfBall = 11.5;
+	}
+
+document.getElementById("round").innerHTML = round;
 	
 } // startBall
 
@@ -161,7 +221,11 @@ function show(){
 		}else {
 			buzzer.play();
 			score2++;
+			round++;
 			document.getElementById("score2").innerHTML = score2;
+			if(round>=10){
+				stopGame();
+			}
 			startBall();
 		}//else
 	}//if
@@ -176,7 +240,11 @@ function show(){
 		}else {
 			buzzer.play();
 			score1++;
+			round++;
 			document.getElementById("score1").innerHTML = score1;
+			if(round>=10){
+				stopGame();
+			}
 			startBall();
 		}//else
 	}//if
@@ -210,8 +278,11 @@ function startGame() {
 	// reset scores, ball and paddle locations
 	score1=0;
 	score2=0;
+	round = 1;
 	positionOfPaddle1 = startPositionOfPaddle1;
 	positionOfPaddle2 = startPositionOfPaddle2;
+	
+	document.getElementById("round").innerHTML = round;
 	
 	startBall();
 	
