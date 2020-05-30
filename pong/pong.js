@@ -127,33 +127,33 @@ function startBall() {
 	}
 	
 	if(round==1){
-	topSpeedOfBall = 4; 
-	leftSpeedOfBall = 4;
-	}
-	
-	if(round==2){
-	topSpeedOfBall = 5; 
-	leftSpeedOfBall = 5;
-	}
-	
-	if(round==3){
-	topSpeedOfBall = 6; 
-	leftSpeedOfBall = 6;
-	}
-	
-	if(round==4){
 	topSpeedOfBall = 7; 
 	leftSpeedOfBall = 7;
 	}
 	
-	if(round==5){
+	if(round==2){
+	topSpeedOfBall = 7.5; 
+	leftSpeedOfBall = 7.5;
+	}
+	
+	if(round==3){
 	topSpeedOfBall = 8; 
 	leftSpeedOfBall = 8;
 	}
 	
-	if(round==6){
+	if(round==4){
+	topSpeedOfBall = 8.5; 
+	leftSpeedOfBall = 8.5;
+	}
+	
+	if(round==5){
 	topSpeedOfBall = 9; 
 	leftSpeedOfBall = 9;
+	}
+	
+	if(round==6){
+	topSpeedOfBall = 9.5; 
+	leftSpeedOfBall = 9.5;
 	}
 	
 	if(round==7){
@@ -279,10 +279,13 @@ function startGame() {
 	score1=0;
 	score2=0;
 	round = 1;
+	
 	positionOfPaddle1 = startPositionOfPaddle1;
 	positionOfPaddle2 = startPositionOfPaddle2;
 	
 	document.getElementById("round").innerHTML = round;
+	document.getElementById("score1").innerHTML = score1;
+	document.getElementById("score2").innerHTML = score2;
 	
 	startBall();
 	
