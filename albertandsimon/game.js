@@ -47,7 +47,7 @@ const levels = [
 		 
 		animateBoxes = document.querySelectorAll(".animate");
 		 
-		animateEnemy(animateBoxes, 0, "r");
+		animateEnemy(animateBoxes, 0, "right");
 		 
 	 } // loadLevel
 	 
@@ -71,17 +71,17 @@ const levels = [
 		 // remove images from other boxes
 		 for (i = 0; i < boxes.length; i++){
 			 if (i != index){
-				boxes[index].classList.remove("enemyr");
-				boxes[index].classList.remove("enemyl");
+				boxes[i].classList.remove("enemyr");
+				boxes[i].classList.remove("enemyl");
 			 }
 		 } // for
 		 
 		 // moving right
-		 if (direction == "r"){
+		 if (direction == "right"){
 			// turn around if hit right side
 			if(index == boxes.length - 1){
 				index--;
-				direction = "l";
+				direction = "left";
 			}else{
 				index++;
 			}
@@ -91,7 +91,7 @@ const levels = [
 			 // turn around if hit left side
 			 if(index == 0) {
 				 index++;
-				 direction = "r";
+				 direction = "right";
 			 }else {
 				 index--;
 			 }
