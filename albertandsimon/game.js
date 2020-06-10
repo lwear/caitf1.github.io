@@ -31,6 +31,16 @@ const levels = [
 	 var currentAnimation; // allows 1 animation per level
 	 var widthOfBoard = 5;
 	 
+	 
+	function displayStartLightbox(){
+		let message = "Alfred and Simon";
+		let message2 = "This game has 3 levels. You must collect the rider and pass the obstacles to make it to the flag. You must have the rider to jump over fences. Make sure you don't run into the enemy. ";
+		
+		showLightBox(message, message2);
+	}
+
+	displayStartLightbox();
+
 	 // start game
 	 window.addEventListener("load", function () {
 		 loadLevel();
@@ -130,6 +140,10 @@ const levels = [
 					nextLocation2 = nextLocation + widthOfBoard;
 				}	
 				
+				if (gridBoxes[nextLocation].className.contains(noPassObstacles)){
+				return;
+				}else{
+				
 				// show horse jumping
 				gridBoxes[nextLocation].className = nextClass;
 				
@@ -151,6 +165,8 @@ const levels = [
 					levelUp(nextClass);
 				
 				}, 350);
+				}
+				
 				return;
 				
 			} // if riderOn
@@ -182,9 +198,22 @@ const levels = [
 		currentLocationOfHorse = nextLocation;
 		gridBoxes[currentLocationOfHorse].className = newClass;
 		
-		// if it is an enemy
+		// if you run into the enemy
 		if (nextClass.includes("enemy")) {
-			document.getElementById("lose").style.display = "block";
+			message = "You Lose";
+			message2 = "Let's try again.";
+			showLightBox(message, message2);
+			currentLevel = 0;
+			loadLevel();
+			return;
+		}
+		
+		if (currentLocationOfHorse == animateEnemy[index]) {
+			message = "You Lose";
+			message2 = "Let's try again.";
+			showLightBox(message, message2);
+			currentLevel = 0;
+			loadLevel();
 			return;
 		}
 		
@@ -195,19 +224,23 @@ const levels = [
 		 
 	// move up a level
 	function levelUp(nextClass){
-		if (nextClass == "flag" && riderOn && currentLevel == 2){
-			document.getElementById("gameover").style.display = "block";
+		if (nextClass == "flag" && riderOn && currentLevel >= 2){
+			message = "Game Complete";
+			message2 = "Congrats! You've finished Alfred and Simon.";
+			showLightBox(message, message2);
 			clearTimeout(currentAnimation);
 			setTimeout (function(){
-				document.getElementById("gameover").style.display = "none";
+				currentLevel = 0;
+				loadLevel();
 			}, 1000);
 		} // if
 		
 		if (nextClass == "flag" && riderOn && currentLevel <= 1){
-			document.getElementById("levelup").style.display = "block";
+			message = "Level Up";
+			message2 = "";
+			showLightBox(message, message2);
 			clearTimeout(currentAnimation);
 			setTimeout (function(){
-				document.getElementById("levelup").style.display = "none";
 				currentLevel++;
 				loadLevel();
 			}, 1000);
@@ -285,6 +318,36 @@ const levels = [
 		 }, 750);
 	 } // animateEnemy
 	 
+	 /**** Lightbox Code ****/
+function changeVisibility(divID){
+	var element = document.getElementById(divID);
+	
+	//if element exists, toggle its class between hidden and unhidden
+
+	if(element) {
+		element.className = (element.className == 'hidden')? 'unhidden' : 'hidden';
+	}//if
+} //changeVisibility
+
+//display message in lightbox
+function showLightBox(message, message2){
+	
+	//set messages
+	document.getElementById("message").innerHTML = message;
+	document.getElementById("message2").innerHTML = message2;
+	
+	//show lightbox
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");
+}//showLightBox
+
+//close light box
+function continueGame(){
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");
+}//continueGame
+
+/**** End of Lightbox Code ****/
 	 
 	 
 	 
