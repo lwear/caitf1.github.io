@@ -30,6 +30,7 @@ const levels = [
 	 var currentLocationOfHorse = 0;
 	 var currentAnimation; // allows 1 animation per level
 	 var widthOfBoard = 5;
+	 var locationOfEnemy = 0;
 	 
 	 
 	function displayStartLightbox(){
@@ -208,14 +209,14 @@ const levels = [
 			return;
 		}
 		
-		if (currentLocationOfHorse == animateEnemy[index]) {
+		/* if (currentLocationOfHorse == animateEnemy[index]) {
 			message = "You Lose";
 			message2 = "Let's try again.";
 			showLightBox(message, message2);
 			currentLevel = 0;
 			loadLevel();
 			return;
-		}
+		} */
 		
 		// move up to next level if needed
 		levelUp(nextClass);
@@ -276,6 +277,10 @@ const levels = [
 		 
 		 // exit function if no animation
 		 if(boxes.length <= 0) { return; }
+		 
+		 if(boxes[index].classList.contains("horse")) {
+			console.log("Enemy landed on horse");
+		 } 
 		 
 		 // update images
 		 if (direction == "right"){
