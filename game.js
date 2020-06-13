@@ -30,6 +30,7 @@ const levels = [
 	 var currentLocationOfHorse = 0;
 	 var currentAnimation; // allows 1 animation per level
 	 var widthOfBoard = 5;
+	 var locationOfEnemy = 0;
 	 
 	 
 	function displayStartLightbox(){
@@ -113,6 +114,7 @@ const levels = [
 		// if it's a fence, and there is no rider, don't move 
 		if (!riderOn && nextClass.includes("fence")) { return; }
 		
+		
 		// if there is a fence, move two spaces with animation 
 		if (nextClass.includes("fence")) {
 			
@@ -140,7 +142,7 @@ const levels = [
 					nextLocation2 = nextLocation + widthOfBoard;
 				}	
 				
-				if (gridBoxes[nextLocation].className.contains(noPassObstacles)){
+				if (gridBoxes[nextLocation].className.includes(noPassObstacles)){
 				return;
 				}else{
 				
@@ -208,14 +210,14 @@ const levels = [
 			return;
 		}
 		
-		if (currentLocationOfHorse == animateEnemy[index]) {
+		/* if (currentLocationOfHorse == animateEnemy[index]) {
 			message = "You Lose";
 			message2 = "Let's try again.";
 			showLightBox(message, message2);
 			currentLevel = 0;
 			loadLevel();
 			return;
-		}
+		} */
 		
 		// move up to next level if needed
 		levelUp(nextClass);
@@ -276,6 +278,10 @@ const levels = [
 		 
 		 // exit function if no animation
 		 if(boxes.length <= 0) { return; }
+		 
+		 if(boxes[index].classList.contains("horseup")|| boxes[index].classList.contains("horsedown")|| boxes[index].classList.contains("horseleft")||boxes[index].classList.contains("horseright")) {
+			console.log("Enemy landed on horse");
+		 } 
 		 
 		 // update images
 		 if (direction == "right"){
