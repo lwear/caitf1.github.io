@@ -30,11 +30,10 @@ const levels = [
 	 var currentLocationOfHorse = 0;
 	 var currentAnimation; // allows 1 animation per level
 	 var widthOfBoard = 5;
-	 var locationOfEnemy = 0;
 	 
 	 
 	function displayStartLightbox(){
-		let message = "Alfred and Simon";
+		let message = "Albert and Simon";
 		let message2 = "This game has 3 levels. You must collect the rider and pass the obstacles to make it to the flag. You must have the rider to jump over fences. Make sure you don't run into the enemy. ";
 		
 		showLightBox(message, message2);
@@ -142,9 +141,6 @@ const levels = [
 					nextLocation2 = nextLocation + widthOfBoard;
 				}	
 				
-				if (gridBoxes[nextLocation].className.includes(noPassObstacles)){
-				return;
-				}else{
 				
 				// show horse jumping
 				gridBoxes[nextLocation].className = nextClass;
@@ -167,7 +163,6 @@ const levels = [
 					levelUp(nextClass);
 				
 				}, 350);
-				}
 				
 				return;
 				
@@ -206,23 +201,28 @@ const levels = [
 			message2 = "Let's try again.";
 			showLightBox(message, message2);
 			currentLevel = 0;
-			loadLevel();
+      clearTimeout(currentAnimation);
+      setTimeout (function(){
+				currentLevel = 0;
+				loadLevel();
+			}, 1000);
 			return;
 		}
 		
-		/* if (currentLocationOfHorse == animateEnemy[index]) {
+		 if (currentLocationOfHorse == animateEnemy[index]) {
 			message = "You Lose";
 			message2 = "Let's try again.";
 			showLightBox(message, message2);
 			currentLevel = 0;
 			loadLevel();
 			return;
-		} */
+		} 
 		
 		// move up to next level if needed
 		levelUp(nextClass);
 		
 	} // tryToMove
+		 
 		 
 	// move up a level
 	function levelUp(nextClass){
@@ -281,6 +281,14 @@ const levels = [
 		 
 		 if(boxes[index].classList.contains("horseup")|| boxes[index].classList.contains("horsedown")|| boxes[index].classList.contains("horseleft")||boxes[index].classList.contains("horseright")) {
 			console.log("Enemy landed on horse");
+      showLightBox("You lose", "Close to restart");
+			clearTimeout(currentAnimation);
+			setTimeout (function(){
+				currentLevel = 0;
+				loadLevel();
+			}, 1000);
+      return;
+      //show lightbox
 		 } 
 		 
 		 // update images
@@ -324,6 +332,7 @@ const levels = [
 		 }, 750);
 	 } // animateEnemy
 	 
+	 
 	 /**** Lightbox Code ****/
 function changeVisibility(divID){
 	var element = document.getElementById(divID);
@@ -354,7 +363,6 @@ function continueGame(){
 }//continueGame
 
 /**** End of Lightbox Code ****/
-	 
 	 
 	 
 	 
