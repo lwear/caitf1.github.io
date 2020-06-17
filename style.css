@@ -16,7 +16,7 @@ body {
 }
 
 #gameBoard div{
-	background-color: #00EE00;
+	background-color: green;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .flag {
-	background-image:url("images/flag.png");
+	background-image:url("images/flag4.png");
 }
 
 .rock {
@@ -159,6 +159,26 @@ body {
 	width:30px;
 	height:30px;
 	z-index:4;
+}
+
+#newbutton {
+	position:absolute;
+	top:70%;
+	right:50px;
+	height:40px;
+	width:100px;
+	background-color:#FFFFFF;
+	color:#142850;
+}
+
+#button {
+	position:absolute;
+	top:70%;
+	right:180px;
+	height:40px;
+	width:100px;
+	background-color:#FFFFFF;
+	color:#142850;
 }
 
 #positionMessage {

@@ -19,7 +19,7 @@ const levels = [
 	  "water", "bridge", "water", "water", "water",
 	  "", "", "", "fence", "", 
 	  "rider", "rock", "", "", "horseup"]
-	 
+	  
 	 ]; //end of levels
 	 
 	 const gridBoxes = document.querySelectorAll("#gameBoard div");
@@ -33,10 +33,25 @@ const levels = [
 	 
 	 
 	function displayStartLightbox(){
-		let message = "Albert and Simon";
-		let message2 = "This game has 3 levels. You must collect the rider and pass the obstacles to make it to the flag. You must have the rider to jump over fences. Make sure you don't run into the enemy. ";
+		let message = "Pacman's Picnic";
+		let message2 = "This game has 3 levels. You must collect the key and reach the picnic blanket so Pacman can feast on his delicious fruit. Pacman must collect the key to move through the doors. Be careful! If you run into a ghost, it's game over and poor Pacman won't get to enjoy his picnic. ";
 		
 		showLightBox(message, message2);
+	}
+	
+	function displayEndLightbox() {
+		let message = "Game over";
+		let message2 = "Thanks for playing!";
+		
+		clearTimeout(currentAnimation);
+      setTimeout (function(){
+				currentLevel = 0;
+				loadLevel();
+			}, 1000);
+		
+		showLightBox(message, message2);
+		
+		displayStartLightbox;
 	}
 
 	displayStartLightbox();
@@ -141,6 +156,9 @@ const levels = [
 					nextLocation2 = nextLocation + widthOfBoard;
 				}	
 				
+				if (gridBoxes[nextLocation].className.includes(noPassObstacles)){
+				return;
+				}else{
 				
 				// show horse jumping
 				gridBoxes[nextLocation].className = nextClass;
@@ -163,6 +181,7 @@ const levels = [
 					levelUp(nextClass);
 				
 				}, 350);
+			}
 				
 				return;
 				
@@ -188,7 +207,7 @@ const levels = [
 		
 		// if there is a bridge in the next location, keep it
 		if (gridBoxes[nextLocation].classList.contains("bridge")) {
-			newClass += "bridge";
+			newClass += " bridge";
 		}
 	
 		// move 1 space
@@ -198,7 +217,7 @@ const levels = [
 		// if you run into the enemy
 		if (nextClass.includes("enemy")) {
 			message = "You Lose";
-			message2 = "Let's try again.";
+			message2 = "Oh no! Poor Pacman will have to go to bed hungry tonight.";
 			showLightBox(message, message2);
 			currentLevel = 0;
       clearTimeout(currentAnimation);
@@ -208,15 +227,6 @@ const levels = [
 			}, 1000);
 			return;
 		}
-		
-		 if (currentLocationOfHorse == animateEnemy[index]) {
-			message = "You Lose";
-			message2 = "Let's try again.";
-			showLightBox(message, message2);
-			currentLevel = 0;
-			loadLevel();
-			return;
-		} 
 		
 		// move up to next level if needed
 		levelUp(nextClass);
@@ -228,7 +238,7 @@ const levels = [
 	function levelUp(nextClass){
 		if (nextClass == "flag" && riderOn && currentLevel >= 2){
 			message = "Game Complete";
-			message2 = "Congrats! You've finished Alfred and Simon.";
+			message2 = "Congrats! You've finished Pacman's Picnic! Lucky for you, he's always hungry. Play again!";
 			showLightBox(message, message2);
 			clearTimeout(currentAnimation);
 			setTimeout (function(){
@@ -239,7 +249,7 @@ const levels = [
 		
 		if (nextClass == "flag" && riderOn && currentLevel <= 1){
 			message = "Level Up";
-			message2 = "";
+			message2 = "Keep it up! Pacman's still hungry.";
 			showLightBox(message, message2);
 			clearTimeout(currentAnimation);
 			setTimeout (function(){
@@ -281,11 +291,12 @@ const levels = [
 		 
 		 if(boxes[index].classList.contains("horseup")|| boxes[index].classList.contains("horsedown")|| boxes[index].classList.contains("horseleft")||boxes[index].classList.contains("horseright")) {
 			console.log("Enemy landed on horse");
-      showLightBox("You lose", "Close to restart");
+      showLightBox("You lose", "Try again?");
 			clearTimeout(currentAnimation);
 			setTimeout (function(){
 				currentLevel = 0;
 				loadLevel();
+				displayStartLightbox();
 			}, 1000);
       return;
       //show lightbox
